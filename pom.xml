@@ -13,6 +13,7 @@
         <assertj-core.version>3.18.1</assertj-core.version>
         <mockito.version>3.6.0</mockito.version>
         <logging.log4j.version>2.14.0</logging.log4j.version>
+        <postgresql.version>42.2.18</postgresql.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
@@ -56,6 +57,11 @@
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
             <version>${logging.log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
         </dependency>
     </dependencies>
 
