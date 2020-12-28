@@ -16,6 +16,13 @@ public class StudentsGeneratorImpl implements StudentsGenerator{
     private static final List<String> FIRST_NAMES;
     private static final List<String> LAST_NAMES;
     private static final Random RANDOM = new Random();
+    private static final int NUMBER_ZERO = 0;
+    private static final int NUMBER_ONE = 1;
+    private static final int NUMBER_TEN = 10;
+    private static final int NUMBER_ELEVEN = 11;
+    private static final int NUMBER_TWENTY_ONE = 21;
+    private static final int NUMBER_TWO_HUNDRED = 200;
+
     static {
         FIRST_NAMES = listOfFirstNames();
         LAST_NAMES = listOfLastNames();
@@ -23,32 +30,36 @@ public class StudentsGeneratorImpl implements StudentsGenerator{
 
     @Override
     public List<Student> generateStudents() {
-        final List<Student> tempStudents = new ArrayList<>();
-        int[] numbersOfStudentsForEveryGroup = new int[11];
-        numbersOfStudentsForEveryGroup[0] = 0;
-        for (int i = 1; i < 11; i++) {
-            numbersOfStudentsForEveryGroup[i] = RANDOM.nextInt(21) + 10;
+        final List<Student> studentsList = new ArrayList<>();
+        int[] numbersOfStudentsForEveryGroup = new int[NUMBER_ELEVEN];
+        numbersOfStudentsForEveryGroup[NUMBER_ZERO] = NUMBER_ZERO;
+        for (int i = 1; i < NUMBER_ELEVEN; i++) {
+            numbersOfStudentsForEveryGroup[i] = RANDOM.nextInt(NUMBER_TWENTY_ONE) + NUMBER_TEN;
         }
 
-        while (tempStudents.size() < 200) {
+        while (studentsList.size() < NUMBER_TWO_HUNDRED) {
             String firstName = getRandomFirstName();
             String lastName = getRandomLastName();
 
-            int groupId = RANDOM.nextInt(10) + 1;
+            int groupId = RANDOM.nextInt(NUMBER_TEN) + NUMBER_ONE;
 
-            Student student = new Student(firstName, lastName);
+            Student student = Student.builder()
+                    .withFirstName(firstName)
+                    .withLastName(lastName)
+                    .build();
 
-            if (!tempStudents.contains(student)) {
-                if (numbersOfStudentsForEveryGroup[groupId] != 0) {
-                    student.setGroup_id(groupId);
+            if (!studentsList.contains(student)) {
+                if (numbersOfStudentsForEveryGroup[groupId] != NUMBER_ZERO) {
+                    student.setGroupId(groupId);
                     numbersOfStudentsForEveryGroup[groupId]--;
                 } else {
-                    student.setGroup_id(0);
+                    student.setGroupId(NUMBER_ZERO);
                 }
-                tempStudents.add(student);
+                studentsList.add(student);
             }
         }
-        return tempStudents;
+
+        return studentsList;
     }
 
     private String getRandomFirstName() {

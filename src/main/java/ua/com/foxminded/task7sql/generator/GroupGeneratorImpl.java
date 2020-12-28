@@ -14,7 +14,9 @@ public class GroupGeneratorImpl implements GroupGenerator {
     public List<Group> generateGroups() {
         List<Group> tempGroup = new ArrayList<>();
         while (tempGroup.size() < 10) {
-            Group group = new Group(generateRandomGroupNumber());
+            Group group = Group.builder()
+                    .withGroupName(generateRandomGroupName())
+                    .build();
             if (!tempGroup.contains(group)) {
                 tempGroup.add(group);
             }
@@ -22,7 +24,7 @@ public class GroupGeneratorImpl implements GroupGenerator {
         return tempGroup;
     }
 
-    private String generateRandomGroupNumber() {
+    private String generateRandomGroupName() {
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i < 2; i++) {
             char tmp = (char)('a' + RANDOM.nextInt('z' - 'a'));

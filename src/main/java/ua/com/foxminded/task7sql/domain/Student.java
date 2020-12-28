@@ -1,13 +1,18 @@
 package ua.com.foxminded.task7sql.domain;
 
+import java.util.Objects;
+
 public class Student {
-    private int group_id;
+    private final int studentId;
     private final String firstName;
     private final String lastName;
+    private int groupId;
 
-    public Student(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    private Student(Builder builder) {
+        this.studentId = builder.studentId;
+        this.firstName = builder.firstName;
+        this.lastName = builder.lastName;
+        this.groupId = builder.groupId;
     }
 
     public String getFirstName() {
@@ -18,12 +23,16 @@ public class Student {
         return lastName;
     }
 
-    public int getGroup_id() {
-        return group_id;
+    public int getStudentId() {
+        return studentId;
     }
 
-    public void setGroup_id(int group_id) {
-        this.group_id = group_id;
+    public int getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(int groupId) {
+        this.groupId = groupId;
     }
 
     @Override
@@ -33,25 +42,52 @@ public class Student {
 
         Student student = (Student) o;
 
-        if (group_id != student.group_id) return false;
-        if (firstName != null ? !firstName.equals(student.firstName) : student.firstName != null) return false;
-        return lastName != null ? lastName.equals(student.lastName) : student.lastName == null;
+        if (studentId != student.studentId) return false;
+        if (groupId != student.groupId) return false;
+        return (Objects.equals(firstName, student.firstName)) &&
+                Objects.equals(lastName, student.lastName);
     }
 
     @Override
     public int hashCode() {
-        int result = group_id;
-        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        return result;
+        return Objects.hash(firstName, lastName);
     }
 
-    @Override
-    public String toString() {
-        return "Student{" +
-                "group_id=" + group_id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                '}';
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private int studentId;
+        private String firstName;
+        private String lastName;
+        private int groupId;
+
+        private Builder() {
+        }
+
+        public Student build() {
+            return new Student(this);
+        }
+
+        public Builder withStudentId(int studentId) {
+            this.studentId = studentId;
+            return this;
+        }
+
+        public Builder withFirstName(String firstName) {
+            this.firstName = firstName;
+            return this;
+        }
+
+        public Builder withLastName(String lastName) {
+            this.lastName = lastName;
+            return this;
+        }
+
+        public Builder withGroupId(int groupId) {
+            this.groupId = groupId;
+            return this;
+        }
     }
 }
