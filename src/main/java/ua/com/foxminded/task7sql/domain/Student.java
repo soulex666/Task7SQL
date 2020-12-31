@@ -37,14 +37,17 @@ public class Student {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Student student = (Student) o;
 
-        if (studentId != student.studentId) return false;
-        if (groupId != student.groupId) return false;
-        return (Objects.equals(firstName, student.firstName)) &&
+        return (groupId == student.groupId) &&
+                Objects.equals(firstName, student.firstName) &&
                 Objects.equals(lastName, student.lastName);
     }
 

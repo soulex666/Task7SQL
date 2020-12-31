@@ -73,8 +73,8 @@
                 <version>0.8.6</version>
                 <configuration>
                     <excludes>
-                        <exclude>**/Formula1Application.class</exclude>
-                        <exclude>**/domain/Racer.class</exclude>
+                        <exclude>**/DBApplication.class</exclude>
+                        <exclude>**/domain/**</exclude>
                     </excludes>
                 </configuration>
                 <executions>
@@ -153,7 +153,7 @@
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>libs/</classpathPrefix>
                             <mainClass>
-                                ua.com.foxminded.java8api.Formula1Application
+                                ua.com.foxminded.task7sql.DBApplication
                             </mainClass>
                         </manifest>
                     </archive>
