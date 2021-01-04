@@ -1,42 +1,51 @@
 package ua.com.foxminded.task7sql;
 
+import ua.com.foxminded.task7sql.domain.Student;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-public class StudentsDaoImpl extends AbstractCrudDaoImpl implements StudentsDao{
+public class StudentsDaoImpl extends AbstractCrudDaoImpl<Student> implements StudentsDao {
+    private static final String SAVE_QUERY = "INSERT INTO users (name, surname,email,password) values(?, ?, ?, ?, ?, ?, ?)";
+    private static final String FIND_BY_ID_QUERY = "SELECT * from topics WHERE id = ?";
+    private static final String FIND_ALL_QUERY = "";
+    private static final String UPDATE_QUERY = "";
+    private static final String DELETE_BY_ID_QUERY = "";
 
     public StudentsDaoImpl(DBConnector connector) {
-        super(connector);
+        super(connector, SAVE_QUERY, FIND_BY_ID_QUERY, FIND_ALL_QUERY, UPDATE_QUERY, DELETE_BY_ID_QUERY);
     }
 
     @Override
-    public Optional getById(Object o) {
-        return Optional.empty();
+    public void save(Student entity) {
+        super.save(entity);
     }
 
     @Override
-    public List getAll() {
-        return null;
+    public Optional<Student> getById(Integer id) {
+        return super.getById(id);
     }
 
     @Override
-    public void save(Object o) {
-
+    public List<Student> getAll() {
+        return super.getAll();
     }
 
-    @Override
-    public void update(Object o, String[] params) {
-
-    }
-
-    @Override
-    public void deleteById(Object t) {
-
-    }
 
     @Override
     public void deleteAllById(Set t) {
 
     }
+
+    @Override
+    public void update(Student entity) {
+        super.update(entity);
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+        super.deleteById(id);
+    }
+
 }

@@ -1,5 +1,7 @@
 package ua.com.foxminded.task7sql;
 
-public interface StudentsDao extends CrudDao {
+import ua.com.foxminded.task7sql.domain.Student;
+
+public interface StudentsDao extends CrudDao<Student, Integer> {
 
 }
