@@ -1,5 +1,6 @@
-package ua.com.foxminded.task7sql;
+package ua.com.foxminded.task7sql.dao;
 
+import ua.com.foxminded.task7sql.DBConnector;
 import ua.com.foxminded.task7sql.validator.DBRuntimeException;
 
 import java.sql.Connection;
@@ -9,15 +10,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E, Integer> {
-    private final DBConnector connector;
+    protected final DBConnector connector;
     private final String save;
     private final String getById;
     private final String getAll;
     private final String update;
     private final String deleteById;
+
 
 
     protected AbstractCrudDaoImpl(DBConnector connector, String save, String getById,
@@ -34,17 +35,24 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E, Integer> {
     public void save(E entity) {
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(save)) {
-
+            insert(preparedStatement, entity);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-//            LOGGER.error("Insertion is failed", e);
             throw new DBRuntimeException("Insertion is failed", e);
         }
     }
 
     @Override
     public Optional<E> getById(Integer id) {
-        return null;
+        try (Connection connection = connector.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(getById)) {
+            preparedStatement.setInt(1, id);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                return resultSet.next() ? Optional.ofNullable(mapResultSetToEntity(resultSet)) : Optional.empty();
+            }
+        } catch (SQLException e) {
+            throw new DBRuntimeException(String.format("Get by ID %d is failed", id), e);
+        }
     }
 
     @Override
@@ -54,12 +62,12 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E, Integer> {
             try (final ResultSet resultSet = preparedStatement.executeQuery()) {
                 List<E> entities = new ArrayList<>();
                 while (resultSet.next()) {
-
+                    entities.add(mapResultSetToEntity(resultSet));
                 }
                 return entities;
             }
         } catch (SQLException e) {
-            throw new DBRuntimeException(e);
+            throw new DBRuntimeException("Get table is failed", e);
         }
     }
 
@@ -67,19 +75,27 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E, Integer> {
     public void update(E entity) {
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(update)) {
-
-
-
+            updateValues(preparedStatement, entity);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new DBRuntimeException(e);
+            throw new DBRuntimeException("Update is failed", e);
         }
     }
 
     @Override
     public void deleteById(Integer id) {
-        throw new UnsupportedOperationException();
+        try (Connection connection = connector.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(deleteById)) {
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DBRuntimeException(String.format("Delete by ID %d is failed", id), e);
+        }
     }
 
+    protected abstract void insert(PreparedStatement preparedStatement, E entity) throws SQLException;
 
+    protected abstract E mapResultSetToEntity(ResultSet resultSet) throws SQLException;
+
+    protected abstract void updateValues(PreparedStatement preparedStatement, E entity) throws SQLException;
 }

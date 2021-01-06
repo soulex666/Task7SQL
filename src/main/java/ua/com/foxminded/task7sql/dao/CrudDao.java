@@ -1,8 +1,7 @@
-package ua.com.foxminded.task7sql;
+package ua.com.foxminded.task7sql.dao;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public interface CrudDao<T, ID> {
     Optional<T> getById(ID id);
@@ -14,7 +13,5 @@ public interface CrudDao<T, ID> {
     void update(T t);
 
     void deleteById(ID t);
-
-    void deleteAllById(Set<ID> t);
 
 }

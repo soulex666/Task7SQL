@@ -69,6 +69,7 @@ public class DBConnectorJDBC {
                     "WHERE group_id IS NOT NULL " +
                     "GROUP BY group_id) AS tt) " +
                     "GROUP BY group_id";
+
     private static final String GET_TABLE_DATA_BY_NAME = "SELECT  * FROM %s;";
 
 
