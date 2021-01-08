@@ -5,21 +5,26 @@ import ua.com.foxminded.task7sql.dao.*;
 import ua.com.foxminded.task7sql.domain.Course;
 import ua.com.foxminded.task7sql.domain.Group;
 import ua.com.foxminded.task7sql.domain.Student;
+import ua.com.foxminded.task7sql.generator.*;
+import ua.com.foxminded.task7sql.provider.ConsoleReader;
+import ua.com.foxminded.task7sql.provider.ConsoleWriter;
 import ua.com.foxminded.task7sql.view.CourseViewImpl;
 import ua.com.foxminded.task7sql.view.GroupViewImpl;
 import ua.com.foxminded.task7sql.view.StudentViewImpl;
 import ua.com.foxminded.task7sql.view.View;
 
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 
 public class ControllerImpl implements Controller {
     private static final String CONFIG_FILE = "config";
     private final DBConnector connector;
-    private static final Scanner SCANNER = new Scanner(System.in);
     private View<Student> studentView;
     private View<Course> courseView;
     private View<Group> groupView;
+    private StudentsDao studentsDao;
+    private CourseDao courseDao;
+    private GroupDao groupDao;
+    private static final ConsoleWriter CONSOLE_WRITER = new ConsoleWriter();
 
     public ControllerImpl() {
         this.connector = new DBConnector(CONFIG_FILE);
@@ -27,101 +32,28 @@ public class ControllerImpl implements Controller {
 
     public void run() {
         //подправить логику заполнения базы сгенерированными данными
-        /*System.out.println("введите 'write', если хотите заполнить базу данных сгенерированными данными или нажмите enter");
-        String generate = scanner.next();
+        System.out.println("введите 'write', если хотите заполнить базу данных сгенерированными данными или нажмите enter");
+        String generate = ConsoleReader.readLine();
         if (!generate.isEmpty() && "write".equals(generate)) {
-            StudentsGenerator studentsGenerator = new StudentsGeneratorImpl();
-            GroupGenerator groupGenerator = new GroupGeneratorImpl();
-            CourseCreator courseCreator = new CourseCreatorImpl();
-            DatabaseProvider provider = new DatabaseProviderImpl();
-
-            List<Group> groups = groupGenerator.generateGroups();
-            List<Student> students = studentsGenerator.generateStudents();
-            List<Course> courses = courseCreator.getCourses();
-
-            provider.clearAndSetDataToGroupTable(connector, groups);
-            provider.clearAndSetDataToCourseTable(connector, courses);
-            provider.clearAndSetDataToStudentsTable(connector, students);
-            provider.clearAndSetRandomDataToStudentsEnrollmentTable(connector);
-        }*/
+            setAllDataToDatabase();
+        }
 
         while (true) {
             System.out.println("Введите название таблицы, с которой хотите соединиться или 'exit' для завершения программы:");
-            String temp = SCANNER.next();
+            String temp = ConsoleReader.readLine();
             switch (temp) {
-                case "students": {
-                    System.out.println("Вы выбрали таблицу Students");
-                    StudentsDao studentsDao = studentsDaoConnection();
-                    System.out.println("Введите название операции, которую хотите произвести:");
-                    String temp2 = SCANNER.next();
-                    switch (temp2) {
-                        case "get": {
-                            System.out.println("введите id студента");
-                            int id = SCANNER.nextInt();
-                            Optional<Student> student = studentsDao.getById(id);
-                            if (student.isPresent()) {
-                                studentView.consoleView(student.get());
-                            } else {
-                                System.out.printf("Студента с ID = %d не найдено", id);
-                            }
-                            break;
-                        }
-                        case "set": {
-                            break;
-                        }
-                        default:
-                            System.out.println("ошибка ввода данных1");
-                    }
+                case "students":
+                    studentsDao = studentsDaoConnection();
+                    CONSOLE_WRITER.studentsWriter(studentsDao, studentView);
                     break;
-                }
-                case "courses": {
-                    System.out.println("Вы выбрали таблицу courses");
-                    CourseDao courseDao = coursesDaoConnection();
-                    System.out.println("Введите название операции, которую хотите произвести:");
-                    String temp2 = SCANNER.next();
-                    switch (temp2) {
-                        case "get": {
-                            System.out.println("введите id курса");
-                            int id = SCANNER.nextInt();
-                            Optional<Course> course = courseDao.getById(id);
-                            if (course.isPresent()) {
-                                courseView.consoleView(course.get());
-                            } else {
-                                System.out.printf("Курс с ID = %d не найдено", id);
-                            }
-                            break;
-                        }
-                        case "set" :
-                            break;
-                        default:
-                            System.out.println("данного запроса не существует");
-                    }
+                case "courses":
+                    courseDao = new CourseDaoImpl(connector);
+                    CONSOLE_WRITER.coursesWriter(courseDao, courseView);
                     break;
-                }
-                case "groups": {
-                    System.out.println("Вы выбрали таблицу groups");
-                    GroupDao groupDao = groupsDaoConnection();
-                    System.out.println("Введите название операции, которую хотите произвести:");
-                    String temp2 = SCANNER.next();
-                    switch (temp2) {
-                        case "get": {
-                            System.out.println("введите id группы");
-                            int id = SCANNER.nextInt();
-                            Optional<Group> group = groupDao.getById(id);
-                            if (group.isPresent()) {
-                                groupView.consoleView(group.get());
-                            } else {
-                                System.out.printf("Группы с ID = %d не найдено", id);
-                            }
-                            break;
-                        }
-                        case "set" :
-                            break;
-                        default:
-                            System.out.println("данного запроса не существует");
-                    }
+                case "groups":
+                    groupDao = new GroupDaoImpl(connector);
+                    CONSOLE_WRITER.groupsWriter(groupDao, groupView);
                     break;
-                }
                 case "exit":
                     return;
                 default:
@@ -132,17 +64,59 @@ public class ControllerImpl implements Controller {
 
 
     private StudentsDao studentsDaoConnection() {
-        studentView = new StudentViewImpl();
-        return new StudentsDaoImpl(connector);
+        if (studentView == null) {
+            studentView = new StudentViewImpl();
+        }
+        if (studentsDao == null) {
+            studentsDao = new StudentsDaoImpl(connector);
+        }
+
+        return studentsDao;
     }
 
     private GroupDao groupsDaoConnection() {
-        groupView = new GroupViewImpl();
-        return new GroupDaoImpl(connector);
+        if (groupView == null) {
+            groupView = new GroupViewImpl();
+        }
+        if (groupDao == null) {
+            groupDao = new GroupDaoImpl(connector);
+        }
+
+        return groupDao;
     }
 
     private CourseDao coursesDaoConnection() {
-        courseView = new CourseViewImpl();
-        return new CourseDaoImpl(connector);
+        if (courseView == null) {
+            courseView = new CourseViewImpl();
+        }
+        if (courseDao == null) {
+            courseDao = new CourseDaoImpl(connector);
+        }
+
+        return courseDao;
+    }
+
+    private void setAllDataToDatabase() {
+        StudentsGenerator studentsGenerator = new StudentsGeneratorImpl();
+        GroupGenerator groupGenerator = new GroupGeneratorImpl();
+        CourseCreator courseCreator = new CourseCreatorImpl();
+
+        List<Group> groups = groupGenerator.generateGroups();
+        List<Student> students = studentsGenerator.generateStudents();
+        List<Course> courses = courseCreator.getCourses();
+
+        studentsDao = studentsDaoConnection();
+        courseDao = coursesDaoConnection();
+        groupDao = groupsDaoConnection();
+
+        courseDao.setAll(courses);
+        groupDao.setAll(groups);
+
+        studentsDao.setAll(students);
+        for (int i = 1; i <= students.size(); i++) {
+            if(students.get(i - 1).getGroupId() != 0) {
+                studentsDao.setGroupIdToStudent(i, students.get(i - 1).getGroupId());
+            }
+        }
     }
 }

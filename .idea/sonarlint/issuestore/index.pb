@@ -77,3 +77,7 @@ q
 Asrc/main/java/ua/com/foxminded/task7sql/view/StudentViewImpl.java,1\3\13d97eacc933e414d47e057060ecf4c2720d4162
 v
 Fsrc/main/java/ua/com/foxminded/task7sql/controller/ControllerImpl.java,5\5\555b0599eea6835071e4e1d9e412897808f26277
+s
+Csrc/main/java/ua/com/foxminded/task7sql/provider/ConsoleReader.java,4\c\4c2d599c695616e2772357712bf03becf33e528c
+s
+Csrc/main/java/ua/com/foxminded/task7sql/provider/ConsoleWriter.java,1\a\1a0886f7040f5575859e250053038a3bded7308e

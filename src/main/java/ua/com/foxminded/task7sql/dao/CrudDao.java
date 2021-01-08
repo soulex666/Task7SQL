@@ -4,11 +4,15 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CrudDao<T, ID> {
+    void clearTable();
+
     Optional<T> getById(ID id);
 
     List<T> getAll();
 
-    void save(T t);
+    void set(T t);
+
+    void setAll(List<T> ts);
 
     void update(T t);
 

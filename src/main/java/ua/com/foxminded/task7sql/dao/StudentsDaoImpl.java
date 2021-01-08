@@ -12,7 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudentsDaoImpl extends AbstractCrudDaoImpl<Student> implements StudentsDao {
-    private static final String SAVE = "INSERT INTO students (first_name, last_name) VALUES (?, ?)";
+    private static final String CLEAR_TABLE = "TRUNCATE TABLE students RESTART IDENTITY CASCADE;";
+    private static final String SET = "INSERT INTO students (first_name, last_name) VALUES (?, ?)";
+    private static final String SET_ALL = "INSERT INTO students (first_name, last_name) VALUES (?, ?)";
     private static final String GET_BY_ID = "SELECT * FROM students WHERE student_id = ?";
     private static final String GET_ALL = "SELECT  * FROM students;";
     private static final String UPDATE =
@@ -30,15 +32,28 @@ public class StudentsDaoImpl extends AbstractCrudDaoImpl<Student> implements Stu
             "FROM courses " +
             "WHERE course_name = ?)) " +
             "ORDER BY student_id ASC;";
+    private static final String SET_GROUP_ID_TO_STUDENT_BY_ID =
+            "UPDATE students " +
+                    "SET group_id = ? WHERE student_id = ?;";
 
     public StudentsDaoImpl(DBConnector connector) {
-        super(connector, SAVE, GET_BY_ID, GET_ALL, UPDATE, DELETE_BY_ID);
+        super(connector, CLEAR_TABLE, SET, SET_ALL, GET_BY_ID, GET_ALL, UPDATE, DELETE_BY_ID);
     }
+
 
     @Override
     protected void insert(PreparedStatement preparedStatement, Student entity) throws SQLException {
         preparedStatement.setString(1, entity.getFirstName());
         preparedStatement.setString(2, entity.getLastName());
+    }
+
+    @Override
+    protected void insertAll(PreparedStatement preparedStatement, List<Student> entity) throws SQLException {
+        clearTable();
+        for (Student student : entity) {
+            insert(preparedStatement, student);
+            preparedStatement.addBatch();
+        }
     }
 
     @Override
@@ -76,5 +91,15 @@ public class StudentsDaoImpl extends AbstractCrudDaoImpl<Student> implements Stu
         }
     }
 
-
+    @Override
+    public void setGroupIdToStudent(Integer studentId, Integer groupId) {
+        try (Connection connection = connector.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SET_GROUP_ID_TO_STUDENT_BY_ID)) {
+            preparedStatement.setInt(1, groupId);
+            preparedStatement.setInt(2, studentId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DBRuntimeException("Insertion is failed", e);
+        }
+    }
 }

@@ -6,4 +6,8 @@ import java.util.List;
 
 public interface StudentsDao extends CrudDao<Student, Integer> {
     List<Student> getStudentsFromCourseByCourseName(String courseName);
+
+    void setAll(List<Student> students);
+
+    void setGroupIdToStudent(Integer studentId, Integer groupId);
 }

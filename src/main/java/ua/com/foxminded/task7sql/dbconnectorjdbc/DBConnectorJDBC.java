@@ -57,7 +57,7 @@ public class DBConnectorJDBC {
             "WHERE course_name = '%s')) " +
             "ORDER BY student_id ASC;";
     private static final String GET_GROUPS_WITH_MINIMUM_STUDENTS =
-            "SELECT group_id, MIN(t.group_count) AS min " +
+            "SELECT group_id, group_name, MIN(t.group_count) AS min " +
                     "FROM (SELECT group_id, COUNT(group_id) AS group_count " +
                     "FROM students " +
                     "WHERE group_id IS NOT NULL " +
