@@ -1,6 +1,6 @@
 package ua.com.foxminded.task7sql.dao;
 
-import ua.com.foxminded.task7sql.DBConnector;
+import ua.com.foxminded.task7sql.connector.DBConnector;
 import ua.com.foxminded.task7sql.domain.Student;
 import ua.com.foxminded.task7sql.validator.DBRuntimeException;
 
@@ -13,8 +13,8 @@ import java.util.List;
 
 public class StudentsDaoImpl extends AbstractCrudDaoImpl<Student> implements StudentsDao {
     private static final String CLEAR_TABLE = "TRUNCATE TABLE students RESTART IDENTITY CASCADE;";
+    private static final String CLEAR_COURSE_ENROLLMENT_TABLE = "TRUNCATE TABLE course_enrollment;";
     private static final String SET = "INSERT INTO students (first_name, last_name) VALUES (?, ?)";
-    private static final String SET_ALL = "INSERT INTO students (first_name, last_name) VALUES (?, ?)";
     private static final String GET_BY_ID = "SELECT * FROM students WHERE student_id = ?";
     private static final String GET_ALL = "SELECT  * FROM students;";
     private static final String UPDATE =
@@ -35,9 +35,13 @@ public class StudentsDaoImpl extends AbstractCrudDaoImpl<Student> implements Stu
     private static final String SET_GROUP_ID_TO_STUDENT_BY_ID =
             "UPDATE students " +
                     "SET group_id = ? WHERE student_id = ?;";
+    private static final String SET_COURSE_ENROLLMENT_DATA =
+            "INSERT INTO course_enrollment (student_id, course_id) " +
+                    "VALUES (?, ?);";
+
 
     public StudentsDaoImpl(DBConnector connector) {
-        super(connector, CLEAR_TABLE, SET, SET_ALL, GET_BY_ID, GET_ALL, UPDATE, DELETE_BY_ID);
+        super(connector, CLEAR_TABLE, SET, GET_BY_ID, GET_ALL, UPDATE, DELETE_BY_ID);
     }
 
 
@@ -100,6 +104,28 @@ public class StudentsDaoImpl extends AbstractCrudDaoImpl<Student> implements Stu
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DBRuntimeException("Insertion is failed", e);
+        }
+    }
+
+    @Override
+    public void setCourseEnrollmentData(Integer studentId, Integer courseId) {
+        try (Connection connection = connector.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SET_COURSE_ENROLLMENT_DATA)) {
+            preparedStatement.setInt(1, studentId);
+            preparedStatement.setInt(2, courseId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DBRuntimeException("Insertion is failed", e);
+        }
+    }
+
+    @Override
+    public void clearCourseEnrollmentTable() {
+        try (Connection connection = connector.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(CLEAR_COURSE_ENROLLMENT_TABLE)) {
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DBRuntimeException("Some problem to clean data from table", e);
         }
     }
 }

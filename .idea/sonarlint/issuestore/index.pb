@@ -39,8 +39,6 @@ Jsrc/main/java/ua/com/foxminded/task7sql/provider/DatabaseProviderImpl.java,9\9
 Lsrc/main/java/ua/com/foxminded/task7sql/dbconnectorjdbc/DBConnectorJDBC.java,b\2\b24b01265d556729ba441f49d6f0c63e266be5b1
 K
 dbscript/tables creator.sql,1\0\1089a27172c5668863c56859cd93f05eee0dc258
-n
->src/main/java/ua/com/foxminded/task7sql/provider/Commands.java,1\b\1ba16c44b54d12610a43b06b03a4dac2fb975def
 h
 8src/main/java/ua/com/foxminded/task7sql/DBConnector.java,6\9\6973a35a55211f8e739b99f6e854f461952b2cd2
 k
@@ -81,3 +79,7 @@ s
 Csrc/main/java/ua/com/foxminded/task7sql/provider/ConsoleReader.java,4\c\4c2d599c695616e2772357712bf03becf33e528c
 s
 Csrc/main/java/ua/com/foxminded/task7sql/provider/ConsoleWriter.java,1\a\1a0886f7040f5575859e250053038a3bded7308e
+€
+Psrc/main/java/ua/com/foxminded/task7sql/generator/CourseEnrollmentGenerator.java,f\4\f419f0623c3b31d516cf6630ddef9f931edaf71b
+„
+Tsrc/main/java/ua/com/foxminded/task7sql/generator/CourseEnrollmentGeneratorImpl.java,2\1\2157a5eabc9db741b70b7abf43e4a57024137cfd

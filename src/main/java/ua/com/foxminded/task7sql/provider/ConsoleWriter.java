@@ -23,7 +23,6 @@ public class ConsoleWriter {
                 System.out.println("введите id студента");
                 int id = ConsoleReader.readInt();
                 Optional<Student> student = studentsDao.getById(id);
-                System.out.println(id);
                 if (student.isPresent()) {
                     studentView.consoleView(Collections.singletonList(student.get()));
                 } else {
@@ -48,7 +47,6 @@ public class ConsoleWriter {
             case "get by course name" :
                 System.out.println("Введите название курса");
                 String courseName = ConsoleReader.readLine();
-
                 studentView.consoleView(studentsDao.getStudentsFromCourseByCourseName(courseName));
                 break;
             case "set course id" :
@@ -73,6 +71,7 @@ public class ConsoleWriter {
                 System.out.println("введите id курса");
                 int id = ConsoleReader.readInt();
                 Optional<Course> course = courseDao.getById(id);
+                System.out.println(course.isPresent());
                 if (course.isPresent()) {
                     courseView.consoleView(Collections.singletonList(course.get()));
                 } else {

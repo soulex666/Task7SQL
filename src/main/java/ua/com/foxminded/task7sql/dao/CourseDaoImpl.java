@@ -1,8 +1,7 @@
 package ua.com.foxminded.task7sql.dao;
 
-import ua.com.foxminded.task7sql.DBConnector;
+import ua.com.foxminded.task7sql.connector.DBConnector;
 import ua.com.foxminded.task7sql.domain.Course;
-import ua.com.foxminded.task7sql.domain.Student;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,7 +18,7 @@ public class CourseDaoImpl extends AbstractCrudDaoImpl<Course> implements Course
     private static final String DELETE_BY_ID = "DELETE FROM courses WHERE course_id = ?;";
 
     public CourseDaoImpl(DBConnector connector) {
-        super(connector,CLEAR_TABLE, SET, SET, GET_BY_ID, GET_ALL, UPDATE, DELETE_BY_ID);
+        super(connector,CLEAR_TABLE, SET, GET_BY_ID, GET_ALL, UPDATE, DELETE_BY_ID);
     }
 
     @Override

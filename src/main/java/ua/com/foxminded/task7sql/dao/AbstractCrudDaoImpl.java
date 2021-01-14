@@ -1,6 +1,6 @@
 package ua.com.foxminded.task7sql.dao;
 
-import ua.com.foxminded.task7sql.DBConnector;
+import ua.com.foxminded.task7sql.connector.DBConnector;
 import ua.com.foxminded.task7sql.validator.DBRuntimeException;
 
 import java.sql.Connection;
@@ -14,7 +14,6 @@ import java.util.Optional;
 public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E, Integer> {
     protected final DBConnector connector;
     private final String set;
-    private final String setAll;
     private final String clearTable;
     private final String getById;
     private final String getAll;
@@ -23,12 +22,11 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E, Integer> {
 
 
 
-    protected AbstractCrudDaoImpl(DBConnector connector, String clearTable, String set, String setAll, String getById,
+    protected AbstractCrudDaoImpl(DBConnector connector, String clearTable, String set, String getById,
                                   String getAll, String update, String deleteById) {
         this.connector = connector;
         this.clearTable = clearTable;
         this.set = set;
-        this.setAll = setAll;
         this.getById = getById;
         this.getAll = getAll;
         this.update = update;
@@ -59,7 +57,7 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E, Integer> {
     @Override
     public void setAll(List<E> entity) {
         try (Connection connection = connector.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(setAll)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(set)) {
             insertAll(preparedStatement, entity);
             preparedStatement.executeBatch();
         } catch (SQLException e) {

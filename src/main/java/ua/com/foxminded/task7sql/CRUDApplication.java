@@ -3,9 +3,9 @@ package ua.com.foxminded.task7sql;
 import ua.com.foxminded.task7sql.controller.Controller;
 import ua.com.foxminded.task7sql.controller.ControllerImpl;
 
-public class NewApplication {
+public class CRUDApplication {
     public static void main(String[] args) {
-        Controller provider = new ControllerImpl();
-        provider.run();
+        Controller controller = new ControllerImpl();
+        controller.run();
     }
 }

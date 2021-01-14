@@ -14,6 +14,7 @@ public class GroupViewImpl implements View<Group> {
         for (Group group : entity) {
             System.out.println("Group ID: " + group.getGroupId());
             System.out.println("Group name: " + group.getGroupName());
+            System.out.println("------------------------------------------------------");
         }
 
     }

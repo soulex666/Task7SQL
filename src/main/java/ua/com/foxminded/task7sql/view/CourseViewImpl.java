@@ -16,6 +16,7 @@ public class CourseViewImpl implements View<Course>{
             System.out.println("Course ID: " + course.getCourseId());
             System.out.println("Course Name: " + course.getCourseName());
             System.out.println("Course description: " + course.getCourseDescription());
+            System.out.println("------------------------------------------------------");
         }
 
     }

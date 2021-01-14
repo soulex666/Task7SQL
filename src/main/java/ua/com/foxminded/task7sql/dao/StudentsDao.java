@@ -10,4 +10,8 @@ public interface StudentsDao extends CrudDao<Student, Integer> {
     void setAll(List<Student> students);
 
     void setGroupIdToStudent(Integer studentId, Integer groupId);
+
+    void setCourseEnrollmentData(Integer studentId, Integer courseId);
+
+    void clearCourseEnrollmentTable();
 }

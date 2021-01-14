@@ -49,18 +49,6 @@ public class DatabaseProviderImpl implements DatabaseProvider {
     }
 
     public void clearAndSetRandomDataToStudentsEnrollmentTable(DBConnectorJDBC connector) {
-        connector.clearTableByName(COURSE_ENROLLMENT);
-        for (int i = 1; i <= NUMBER_TWO_HUNDRED; i++) {
-            int numberOfCourses = RANDOM.nextInt(NUMBER_THREE) + NUMBER_ONE;
-            final Set<Integer> tempSet = new HashSet<>(NUMBER_THREE);
-            for (int j = 0; j < numberOfCourses; j++) {
-                int randomCourseId = RANDOM.nextInt(NUMBER_TEN) + NUMBER_ONE;
-                while (tempSet.contains(randomCourseId)) {
-                    randomCourseId = RANDOM.nextInt(NUMBER_TEN) + NUMBER_ONE;
-                }
-                connector.setCourseEnrollmentData(i, randomCourseId);
-                tempSet.add(randomCourseId);
-            }
-        }
+
     }
 }

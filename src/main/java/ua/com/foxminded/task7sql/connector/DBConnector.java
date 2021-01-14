@@ -1,4 +1,4 @@
-package ua.com.foxminded.task7sql;
+package ua.com.foxminded.task7sql.connector;
 
 import ua.com.foxminded.task7sql.validator.DBRuntimeException;
 

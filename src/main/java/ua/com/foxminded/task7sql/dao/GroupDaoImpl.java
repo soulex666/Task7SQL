@@ -1,8 +1,7 @@
 package ua.com.foxminded.task7sql.dao;
 
-import ua.com.foxminded.task7sql.DBConnector;
+import ua.com.foxminded.task7sql.connector.DBConnector;
 import ua.com.foxminded.task7sql.domain.Group;
-import ua.com.foxminded.task7sql.domain.Student;
 import ua.com.foxminded.task7sql.validator.DBRuntimeException;
 
 import java.sql.Connection;
@@ -35,7 +34,7 @@ public class GroupDaoImpl extends AbstractCrudDaoImpl<Group> implements GroupDao
                     "GROUP BY group_id";
 
     public GroupDaoImpl(DBConnector connector) {
-        super(connector, CLEAR_TABLE, SET, SET, GET_BY_ID, GET_ALL, UPDATE, DELETE_BY_ID);
+        super(connector, CLEAR_TABLE, SET, GET_BY_ID, GET_ALL, UPDATE, DELETE_BY_ID);
     }
 
     @Override

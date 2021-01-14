@@ -26,8 +26,8 @@ CREATE TABLE course_enrollment
     student_id INT NOT NULL,
     course_id  INT NOT NULL,
     FOREIGN KEY (student_id) REFERENCES students (student_id)
-        MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE,
+        ON DELETE CASCADE,
     FOREIGN KEY (course_id) REFERENCES courses (course_id)
-        MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE,
+        ON DELETE CASCADE,
     UNIQUE (student_id, course_id)
 );
