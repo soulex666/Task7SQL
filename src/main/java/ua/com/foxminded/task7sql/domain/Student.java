@@ -46,14 +46,15 @@ public class Student {
 
         Student student = (Student) o;
 
-        return (groupId == student.groupId) &&
+        return (studentId == student.studentId) &&
+                (groupId == student.groupId) &&
                 Objects.equals(firstName, student.firstName) &&
                 Objects.equals(lastName, student.lastName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstName, lastName);
+        return Objects.hash(studentId, firstName, lastName, groupId);
     }
 
     public static Builder builder() {

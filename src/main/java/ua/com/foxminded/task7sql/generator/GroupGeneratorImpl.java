@@ -9,12 +9,12 @@ import java.util.Random;
 public class GroupGeneratorImpl implements GroupGenerator {
     private static final Random RANDOM = new Random();
     private static final String DASH_DELIMITER = "-";
-
+    private static final int NUMBER_TEN = 10;
 
     @Override
     public List<Group> generateGroups() {
         List<Group> tempGroup = new ArrayList<>();
-        while (tempGroup.size() < 10) {
+        while (tempGroup.size() < NUMBER_TEN) {
             Group group = Group.builder()
                     .withGroupName(generateRandomGroupName())
                     .build();
@@ -37,7 +37,7 @@ public class GroupGeneratorImpl implements GroupGenerator {
         sb.append(DASH_DELIMITER);
 
         for(int i = 0; i < 2; i++) {
-            int tmp =RANDOM.nextInt(10);
+            int tmp =RANDOM.nextInt(NUMBER_TEN);
             sb.append(tmp);
         }
 

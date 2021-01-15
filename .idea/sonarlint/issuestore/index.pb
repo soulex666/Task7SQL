@@ -11,12 +11,8 @@ Esrc/main/java/ua/com/foxminded/task7sql/generator/GroupGenerator.java,d\9\d9e1
 Lsrc/main/java/ua/com/foxminded/task7sql/generator/StudentsGeneratorImpl.java,5\9\592e8bf49e801d9f9509d11f6c5c4d1757bd1b72
 y
 Isrc/main/java/ua/com/foxminded/task7sql/generator/GroupGeneratorImpl.java,4\d\4da290e43819401c4c77cc84ab9eb2d41014ce7f
-j
-:src/main/java/ua/com/foxminded/task7sql/DBApplication.java,2\f\2ffa0283f4cdc5fc907b4552edba0805433b2476
 t
 Dsrc/main/java/ua/com/foxminded/task7sql/generator/CourseCreator.java,f\4\f4cce67c15a25f64becadf42b4e8a63a0da6fdb2
-v
-Fsrc/main/java/ua/com/foxminded/task7sql/provider/DatabaseProvider.java,6\f\6f39d03dbb1a8b48cd61146a16db3ad06e764eee
 x
 Hsrc/main/java/ua/com/foxminded/task7sql/generator/CourseCreatorImpl.java,7\7\7730dd24f7d8577d78a4bc89776d4ad504eeba51
 j
@@ -33,20 +29,8 @@ y
 Isrc/main/java/ua/com/foxminded/task7sql/validator/DBRuntimeException.java,a\6\a61f133c024610ef296e45a03be8b2d6db38a194
 ƒ
 Ssrc/main/java/ua/com/foxminded/task7sql/validator/FileNotFoundRuntimeException.java,2\2\22cde56d6deeee6eeec50acc1446cb5d9a479dc7
-z
-Jsrc/main/java/ua/com/foxminded/task7sql/provider/DatabaseProviderImpl.java,9\9\99bbed222c6561593c6881646a4caa9d4669c14f
-|
-Lsrc/main/java/ua/com/foxminded/task7sql/dbconnectorjdbc/DBConnectorJDBC.java,b\2\b24b01265d556729ba441f49d6f0c63e266be5b1
 K
 dbscript/tables creator.sql,1\0\1089a27172c5668863c56859cd93f05eee0dc258
-h
-8src/main/java/ua/com/foxminded/task7sql/DBConnector.java,6\9\6973a35a55211f8e739b99f6e854f461952b2cd2
-k
-;src/main/java/ua/com/foxminded/task7sql/NewApplication.java,3\5\354b6266a5fbbbd4009e327f8db7b11844643fc0
-T
-$src/main/resources/config.properties,f\a\fac4e92d770a0a6287eaad0e53c4efa350987f47
-M
-src/main/resources/log4j2.xml,3\6\36b9f0d33e4b7e602e3cd701314fae81543db66f
 r
 Bsrc/main/java/ua/com/foxminded/task7sql/controller/Controller.java,c\d\cd58c0f7cd7a7702ae1df9321d0e07e649d75b70
 i
@@ -61,8 +45,6 @@ p
 @src/main/java/ua/com/foxminded/task7sql/dao/StudentsDaoImpl.java,3\6\36bfebe807353210422ff1baf3eabca5481ce8db
 n
 >src/main/java/ua/com/foxminded/task7sql/dao/CourseDaoImpl.java,6\4\6473dc0f7a11ae5fdb86b1e0040cafaa19a1e89c
-t
-Dsrc/main/java/ua/com/foxminded/task7sql/dao/AbstractCrudDaoImpl.java,6\1\61c8957a3fdac2ebefef01402cc5eb82adfe5678
 f
 6src/main/java/ua/com/foxminded/task7sql/view/View.java,9\1\91294ff7a246f0c0002fa9b4ead613370125d58a
 p
@@ -83,3 +65,7 @@ Csrc/main/java/ua/com/foxminded/task7sql/provider/ConsoleWriter.java,1\a\1a0886
 Psrc/main/java/ua/com/foxminded/task7sql/generator/CourseEnrollmentGenerator.java,f\4\f419f0623c3b31d516cf6630ddef9f931edaf71b
 „
 Tsrc/main/java/ua/com/foxminded/task7sql/generator/CourseEnrollmentGeneratorImpl.java,2\1\2157a5eabc9db741b70b7abf43e4a57024137cfd
+r
+Bsrc/main/java/ua/com/foxminded/task7sql/connector/DBConnector.java,3\8\3845bccd9c012bea6211226fa2d3da7d23bfc340
+l
+<src/main/java/ua/com/foxminded/task7sql/CRUDApplication.java,9\b\9bdc2ced3ac77e6ea0b84d81138cef7f8c75b434

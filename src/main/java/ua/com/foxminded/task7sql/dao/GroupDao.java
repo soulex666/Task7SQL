@@ -5,7 +5,5 @@ import ua.com.foxminded.task7sql.domain.Group;
 import java.util.List;
 
 public interface GroupDao extends CrudDao<Group, Integer>{
-    void clearAndSetDataToGroupTable(List<Group> groups);
-
     List<Group> getGroupsWithMinimumStudents();
 }

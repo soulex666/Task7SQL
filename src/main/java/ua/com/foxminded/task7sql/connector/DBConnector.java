@@ -23,7 +23,7 @@ public class DBConnector {
         try {
             return DriverManager.getConnection(url, user, password);
         } catch (SQLException e) {
-            throw new DBRuntimeException(e);
+            throw new DBRuntimeException("Ошибка подключения к базе данных", e);
         }
     }
 }

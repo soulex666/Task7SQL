@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E, Integer> {
+public abstract class AbstractCrudDao<E> implements CrudDao<E, Integer> {
     protected final DBConnector connector;
     private final String set;
     private final String clearTable;
@@ -20,10 +20,8 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E, Integer> {
     private final String update;
     private final String deleteById;
 
-
-
-    protected AbstractCrudDaoImpl(DBConnector connector, String clearTable, String set, String getById,
-                                  String getAll, String update, String deleteById) {
+    protected AbstractCrudDao(DBConnector connector, String clearTable, String set, String getById,
+                              String getAll, String update, String deleteById) {
         this.connector = connector;
         this.clearTable = clearTable;
         this.set = set;
@@ -116,11 +114,11 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E, Integer> {
         }
     }
 
-    protected abstract void insert(PreparedStatement preparedStatement, E entity) throws SQLException;
+    protected abstract void insert(PreparedStatement preparedStatement, E entity);
 
-    protected abstract void insertAll(PreparedStatement preparedStatement, List<E> entity) throws SQLException;
+    protected abstract void insertAll(PreparedStatement preparedStatement, List<E> entity);
 
-    protected abstract E mapResultSetToEntity(ResultSet resultSet) throws SQLException;
+    protected abstract E mapResultSetToEntity(ResultSet resultSet);
 
-    protected abstract void updateValues(PreparedStatement preparedStatement, E entity) throws SQLException;
+    protected abstract void updateValues(PreparedStatement preparedStatement, E entity);
 }

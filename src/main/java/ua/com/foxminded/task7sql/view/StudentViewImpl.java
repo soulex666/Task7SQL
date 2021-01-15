@@ -12,13 +12,12 @@ public class StudentViewImpl implements View<Student> {
             return;
         }
         for (Student student: entity) {
-            System.out.println("Student ID: " + student.getStudentId());
-            System.out.println("First Name: " + student.getFirstName());
-            System.out.println("Last Name: " + student.getLastName());
-            System.out.println("Group ID: " + (student.getGroupId() == 0 ?
-                    "студент не состоит в группе" : student.getGroupId()));
+            System.out.printf("Student ID: %d%s", student.getStudentId(), NEWLINE_DELIMITER);
+            System.out.printf("First Name: %s%s", student.getFirstName(), NEWLINE_DELIMITER);
+            System.out.printf("Last Name: %s%s", student.getLastName(), NEWLINE_DELIMITER);
+            System.out.printf("Group ID: %s%s", (student.getGroupId() == 0 ?
+                    "студент не состоит в группе" : String.valueOf(student.getGroupId())), NEWLINE_DELIMITER);
             System.out.println("------------------------------------------------------");
         }
-
     }
 }

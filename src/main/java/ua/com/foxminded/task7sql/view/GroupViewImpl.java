@@ -12,10 +12,9 @@ public class GroupViewImpl implements View<Group> {
             return;
         }
         for (Group group : entity) {
-            System.out.println("Group ID: " + group.getGroupId());
-            System.out.println("Group name: " + group.getGroupName());
+            System.out.printf("Group ID: %d%s", group.getGroupId(), NEWLINE_DELIMITER);
+            System.out.printf("Group name: %s%s", group.getGroupName(), NEWLINE_DELIMITER);
             System.out.println("------------------------------------------------------");
         }
-
     }
 }

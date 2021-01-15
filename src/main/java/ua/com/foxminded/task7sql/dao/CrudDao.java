@@ -17,5 +17,4 @@ public interface CrudDao<T, ID> {
     void update(T t);
 
     void deleteById(ID t);
-
 }

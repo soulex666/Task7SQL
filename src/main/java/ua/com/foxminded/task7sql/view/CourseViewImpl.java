@@ -13,11 +13,10 @@ public class CourseViewImpl implements View<Course>{
             return;
         }
         for(Course course : entity) {
-            System.out.println("Course ID: " + course.getCourseId());
-            System.out.println("Course Name: " + course.getCourseName());
-            System.out.println("Course description: " + course.getCourseDescription());
+            System.out.printf("Course ID: %d%s", course.getCourseId(), NEWLINE_DELIMITER);
+            System.out.printf("Course Name: %s%s", course.getCourseName(), NEWLINE_DELIMITER);
+            System.out.printf("Course description: %s%s", course.getCourseDescription(), NEWLINE_DELIMITER);
             System.out.println("------------------------------------------------------");
         }
-
     }
 }

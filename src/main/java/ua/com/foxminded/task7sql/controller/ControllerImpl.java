@@ -30,18 +30,21 @@ import java.util.List;
 import java.util.Map;
 
 public class ControllerImpl implements Controller {
+    private static final String LIST_REQUESTS = "students, groups, courses, exit";
     private static final String CONFIG_FILE = "config";
-    private final View<Student> studentView = new StudentViewImpl();
-    private final View<Course> courseView = new CourseViewImpl();
-    private final View<Group> groupView = new GroupViewImpl();
+    private final View<Student> studentView;
+    private final View<Course> courseView;
+    private final View<Group> groupView;
     private final StudentsDao studentsDao;
     private final CourseDao courseDao;
     private final GroupDao groupDao;
     private static final ConsoleWriter CONSOLE_WRITER = new ConsoleWriter();
 
-
     public ControllerImpl() {
         DBConnector connector = new DBConnector(CONFIG_FILE);
+        studentView = new StudentViewImpl();
+        courseView = new CourseViewImpl();
+        groupView = new GroupViewImpl();
         studentsDao = new StudentsDaoImpl(connector);
         groupDao = new GroupDaoImpl(connector);
         courseDao = new CourseDaoImpl(connector);
@@ -56,6 +59,8 @@ public class ControllerImpl implements Controller {
 
         while (true) {
             System.out.println("Введите название таблицы, с которой хотите соединиться или 'exit' для завершения программы:");
+            System.out.print("Список возможных запросов: ");
+            System.out.println(LIST_REQUESTS);
             String temp = ConsoleReader.readLine();
             switch (temp) {
                 case "students":
@@ -70,12 +75,10 @@ public class ControllerImpl implements Controller {
                 case "exit":
                     return;
                 default:
-                    System.out.println("таблицы с заданным названием не существует");
+                    System.out.println("Ошибка запроса");
             }
         }
     }
-
-
 
     private void setAllDataToDatabase() {
         StudentsGenerator studentsGenerator = new StudentsGeneratorImpl();
@@ -87,10 +90,13 @@ public class ControllerImpl implements Controller {
         List<Student> students = studentsGenerator.generateStudents();
         List<Course> courses = courseCreator.getCourses();
         Map<Integer, List<Integer>> courseEnrollmentData = courseEnrollmentGenerator.getCourseEnrollmentData();
-
+        courseDao.clearTable();
         courseDao.setAll(courses);
+        groupDao.clearTable();
         groupDao.setAll(groups);
+        studentsDao.clearTable();
         studentsDao.setAll(students);
+
         for (int i = 1; i <= students.size(); i++) {
             if(students.get(i - 1).getGroupId() != 0) {
                 studentsDao.setGroupIdToStudent(i, students.get(i - 1).getGroupId());

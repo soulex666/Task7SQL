@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentsDaoImpl extends AbstractCrudDaoImpl<Student> implements StudentsDao {
+public class StudentsDaoImpl extends AbstractCrudDao<Student> implements StudentsDao {
     private static final String CLEAR_TABLE = "TRUNCATE TABLE students RESTART IDENTITY CASCADE;";
     private static final String CLEAR_COURSE_ENROLLMENT_TABLE = "TRUNCATE TABLE course_enrollment;";
     private static final String SET = "INSERT INTO students (first_name, last_name) VALUES (?, ?)";
@@ -39,43 +39,56 @@ public class StudentsDaoImpl extends AbstractCrudDaoImpl<Student> implements Stu
             "INSERT INTO course_enrollment (student_id, course_id) " +
                     "VALUES (?, ?);";
 
-
     public StudentsDaoImpl(DBConnector connector) {
         super(connector, CLEAR_TABLE, SET, GET_BY_ID, GET_ALL, UPDATE, DELETE_BY_ID);
     }
 
-
     @Override
-    protected void insert(PreparedStatement preparedStatement, Student entity) throws SQLException {
-        preparedStatement.setString(1, entity.getFirstName());
-        preparedStatement.setString(2, entity.getLastName());
-    }
-
-    @Override
-    protected void insertAll(PreparedStatement preparedStatement, List<Student> entity) throws SQLException {
-        clearTable();
-        for (Student student : entity) {
-            insert(preparedStatement, student);
-            preparedStatement.addBatch();
+    protected void insert(PreparedStatement preparedStatement, Student entity)  {
+        try {
+            preparedStatement.setString(1, entity.getFirstName());
+            preparedStatement.setString(2, entity.getLastName());
+        } catch (SQLException e) {
+            throw new DBRuntimeException("Incorrect inserts student data", e);
         }
     }
 
     @Override
-    protected Student mapResultSetToEntity(ResultSet resultSet) throws SQLException {
-        return Student.builder()
-                .withStudentId(resultSet.getInt("student_id"))
-                .withFirstName(resultSet.getString("first_name"))
-                .withLastName(resultSet.getString("last_name"))
-                .withGroupId(resultSet.getInt("group_id"))
-                .build();
+    protected void insertAll(PreparedStatement preparedStatement, List<Student> entity) {
+        try {
+            for (Student student : entity) {
+                insert(preparedStatement, student);
+                preparedStatement.addBatch();
+            }
+        } catch (SQLException e) {
+            throw new DBRuntimeException("Incorrect inserts student data", e);
+        }
     }
 
     @Override
-    protected void updateValues(PreparedStatement preparedStatement, Student entity) throws SQLException {
-        preparedStatement.setInt(4, entity.getStudentId());
-        preparedStatement.setString(1, entity.getFirstName());
-        preparedStatement.setString(2, entity.getLastName());
-        preparedStatement.setInt(3, entity.getGroupId());
+    protected Student mapResultSetToEntity(ResultSet resultSet) {
+        try {
+            return Student.builder()
+                    .withStudentId(resultSet.getInt("student_id"))
+                    .withFirstName(resultSet.getString("first_name"))
+                    .withLastName(resultSet.getString("last_name"))
+                    .withGroupId(resultSet.getInt("group_id"))
+                    .build();
+        } catch (SQLException e) {
+            throw new DBRuntimeException("ResultSet reading error", e);
+        }
+    }
+
+    @Override
+    protected void updateValues(PreparedStatement preparedStatement, Student entity)  {
+        try {
+            preparedStatement.setInt(4, entity.getStudentId());
+            preparedStatement.setString(1, entity.getFirstName());
+            preparedStatement.setString(2, entity.getLastName());
+            preparedStatement.setInt(3, entity.getGroupId());
+        } catch (SQLException e) {
+            throw new DBRuntimeException("Updating data error", e);
+        }
     }
 
     @Override

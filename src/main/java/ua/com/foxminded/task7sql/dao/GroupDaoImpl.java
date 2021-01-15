@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GroupDaoImpl extends AbstractCrudDaoImpl<Group> implements GroupDao {
+public class GroupDaoImpl extends AbstractCrudDao<Group> implements GroupDao {
     private static final String CLEAR_TABLE = "TRUNCATE TABLE groups RESTART IDENTITY CASCADE;";
     private static final String SET = "INSERT INTO groups (group_name) VALUES (?)";
     private static final String GET_BY_ID = "SELECT * FROM groups WHERE group_id = ?";
@@ -38,40 +38,46 @@ public class GroupDaoImpl extends AbstractCrudDaoImpl<Group> implements GroupDao
     }
 
     @Override
-    public void clearAndSetDataToGroupTable(List<Group> groups) {
-        clearTable();
-        for (Group group : groups) {
-            set(group);
+    protected void insert(PreparedStatement preparedStatement, Group entity) {
+        try {
+            preparedStatement.setString(1, entity.getGroupName());
+        } catch (SQLException e) {
+            throw new DBRuntimeException("Incorrect inserts group data", e);
         }
     }
 
     @Override
-    protected void insert(PreparedStatement preparedStatement, Group entity) throws SQLException {
-        preparedStatement.setString(1, entity.getGroupName());
-    }
-
-    @Override
-    protected void insertAll(PreparedStatement preparedStatement, List<Group> entity) throws SQLException {
-        clearTable();
-        for (Group group : entity) {
-            insert(preparedStatement, group);
-            preparedStatement.addBatch();
+    protected void insertAll(PreparedStatement preparedStatement, List<Group> entity) {
+        try {
+            for (Group group : entity) {
+                insert(preparedStatement, group);
+                preparedStatement.addBatch();
+            }
+        } catch (SQLException e) {
+            throw new DBRuntimeException("Incorrect inserts group data", e);
         }
     }
 
     @Override
-    protected Group mapResultSetToEntity(ResultSet resultSet) throws SQLException {
-        return Group.builder()
-                .withGroupId(resultSet.getInt("group_id"))
-                .withGroupName(resultSet.getString("group_name"))
-                .build();
+    protected Group mapResultSetToEntity(ResultSet resultSet) {
+        try {
+            return Group.builder()
+                    .withGroupId(resultSet.getInt("group_id"))
+                    .withGroupName(resultSet.getString("group_name"))
+                    .build();
+        } catch (SQLException e) {
+            throw new DBRuntimeException("ResultSet reading error", e);
+        }
     }
 
     @Override
-    protected void updateValues(PreparedStatement preparedStatement, Group entity) throws SQLException {
-        preparedStatement.setInt(2, entity.getGroupId());
-        preparedStatement.setString(1, entity.getGroupName());
-
+    protected void updateValues(PreparedStatement preparedStatement, Group entity)  {
+        try {
+            preparedStatement.setInt(2, entity.getGroupId());
+            preparedStatement.setString(1, entity.getGroupName());
+        } catch (SQLException e) {
+            throw new DBRuntimeException("Updating data error", e);
+        }
     }
 
     @Override
